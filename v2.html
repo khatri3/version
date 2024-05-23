@@ -8,121 +8,182 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #373434;
-        color: #333;
-        text-align: center;
-        padding: 20px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #373434;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+#clickChartContainer {
+    max-width: 60%;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
+    text-align: center;
+}
+
+h1 {
+    color: #313631;
+    animation: fadeIn 1s ease-in-out;
+}
+
+p,
+select,
+button {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+select,
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+select {
+    background-color: #ddd;
+    color: #333;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#clickButton {
+    padding: 60px 150px; /* Adjust padding as needed */
+    font-size: 24px;
+    background-color: #1e2020eb;
+    color: white;
+    border: none;
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    width: 200px; /* Fixed width */
+    height: 80px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+}
+
+#clickText {
+    vertical-align: middle; /* Center vertically */
+}
+
+#clickButton.clicked span {
+    display: none;
+}
+
+.bubble {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    animation: bubble 0.5s ease-out forwards;
+}
+
+@keyframes bubble {
+    0% {
+        transform: scale(0);
+        opacity: 1;
     }
-    #clickChartContainer {
-        max-width: 60%;
-        margin: auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-        background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
-        text-align: center;
+    100% {
+        transform: scale(5);
+        opacity: 0;
     }
-    h1 {
-        color: #313631;
-        animation: fadeIn 1s ease-in-out;
+}
+
+#clickButton:active {
+    transform: scale(0.95);
+}
+
+
+#clickText {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#clickButton:active {
+    transform: scale(0.95);
+}
+
+#progressBarContainer {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+#progressBar {
+    width: 100%;
+    height: 20px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    transition: width 0.01s linear, background-color 0.5s ease;
+}
+
+#againButton {
+    display: none;
+    margin-top: 20px;
+    background-color: #f82500;
+    color: white;
+}
+
+#againButton:hover {
+    background-color: #99a0a8;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
-    p, select, button {
-        font-size: 18px;
-        margin: 10px 0;
+
+    to {
+        opacity: 1;
     }
-    select, button {
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-    }
-    select {
-        background-color: #ddd;
-        color: #333;
-    }
-    button {
-        background-color: #4CAF50;
-        color: white;
-    }
-    button:hover {
-        background-color: #45a049;
-    }
-    #clickButton {
-        padding: 40px 60px;
-        font-size: 24px;
-        background-color: #149819eb;
-        color: white;
-        border: none;
-        position: relative;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-top: 20px;
-        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-    }
-    #clickButton:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
-    #clickButton:active {
-        transform: scale(0.95);
-    }
-    #timeLeft {
-        font-size: 22px;
-        color: #d9534f;
-        margin-top: 20px;
-    }
-    #progressBarContainer {
-        width: 100%;
-        height: 20px;
-        background-color: #ddd;
-        border-radius: 5px;
-        margin-top: 20px;
-        overflow: hidden;
-    }
-    #progressBar {
-        width: 100%;
-        height: 20px;
-        background-color: #4CAF50;
-        border-radius: 5px;
-        transition: width 0.01s linear, background-color 0.5s ease;
-    }
-    #againButton {
-        display: none;
-        margin-top: 20px;
-        background-color: #f82500;
-        color: white;
-    }
-    #againButton:hover {
-        background-color: #99a0a8;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    #clickCounter {
-        font-size: 24px;
-        margin-top: 10px;
-        transition: font-size 0.2s ease-in-out, transform 0.2s ease-in-out, color 0.2s ease-in-out;
-    }
-    #resultMessage {
-        font-size: 36px;
-        color: #5a8082;
-        display: none;
-    }
-    #highestScore {
-        font-size: 20px;
-        margin-top: 10px;
-        color: #5a8082;
-    }
-    .newRecord {
-        font-weight: bold;
-        color: #4CAF50;
-    }
+}
+
+#clickCounter {
+    font-size: 24px;
+    margin-top: 10px;
+    transition: font-size 0.2s ease-in-out, transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+#resultMessage {
+    font-size: 36px;
+    color: #5a8082;
+    display: none;
+}
+
+#highestScore {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #5a8082;
+}
+
+.newRecord {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
 </style>
 </head>
 <body onload="initializeTracking()">
@@ -136,7 +197,7 @@
             <option value="20">20 seconds</option>
             <option value="60">60 seconds</option>
         </select>
-        <button onclick="initializeTracking()">➊ Set</button>
+        <button onclick="initializeTracking()">➊ Set / Reset</button>
         <p id="clickCounter">Clicks: 0</p>
         <div id="progressBarContainer">
             <div id="progressBar"></div>
@@ -149,7 +210,7 @@
             </svg>
             Restart
         </button>
-        <button id="clickButton">❷ Click here!</button>
+        <button id="clickButton"><span id="clickText">❷ClickHere</span></button>
         <p id="resultMessage"></p>
         <canvas id="clickChart" width="50" height="25"></canvas>
         <p id="highestScore">Highest Score: 0</p>
@@ -163,6 +224,7 @@
         let startTime;
         let chart;
         let timerStarted = false;
+        
 
         function initializeTracking() {
             reset();
@@ -267,6 +329,29 @@
             resultMessage.innerText = `You've clicked ${clickCount} times! ${message}`;
             resultMessage.style.display = 'block';
         }
+document.getElementById("clickButton").addEventListener("click", function(event) {
+    var xPos = event.clientX - this.offsetLeft;
+    var yPos = event.clientY - this.offsetTop;
+    
+    var bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.style.left = xPos + 'px';
+    bubble.style.top = yPos + 'px';
+    
+    this.appendChild(bubble);
+    
+    setTimeout(function() {
+        bubble.remove();
+    }, 500); // Adjust this value to match the duration of the bubble animation
+    
+    // Remove the "Click Here" text from the button
+    var clickText = document.getElementById("clickText");
+    if (clickText) {
+        clickText.remove();
+    }
+});
+
+
 
         function calculateScore(clickCount) {
             if (clickCount <= 5) {
